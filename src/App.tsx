@@ -1,11 +1,12 @@
-import React from "react"
+import ShowsList from "./ShowsList"
+
 
 function App() {
 
 
   return (
     <div>
-   <h1 className='bg-red-500 text-3xl'>hello</h1>
+   <ShowsList />
     </div>
   )
 }
