@@ -1,18 +1,24 @@
 import createSagaMiddleware  from "@redux-saga/core";
 import { showsfetchedAction, SHOW_FETCH } from "./actions"
 import { getShows } from "./api"
-import {call, put, takeLeading } from "redux-saga/effects"
+import {call, delay, put, takeLatest } from "redux-saga/effects"
+import { AnyAction } from "redux";
 
 export const sagaMiddleWare = createSagaMiddleware();
 
-export function* fetchShowData():Generator<any, any, any> {
-const data = yield call(getShows);
-const action = yield showsfetchedAction(data);
-yield put(action);
+export function* fetchShowData(action:AnyAction):Generator<any, any, any> {
+
+    delay(3000);
+
+if(!action.payload){
+return;
+}
+const data = yield call(getShows, action.payload);
+yield put (showsfetchedAction(data));
 }
 
 
-export function* rootSaga (){
-    yield takeLeading(SHOW_FETCH, fetchShowData);
+export function* rootSaga() {
+    yield takeLatest(SHOW_FETCH, fetchShowData);
 }
 

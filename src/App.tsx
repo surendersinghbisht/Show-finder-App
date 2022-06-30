@@ -3,7 +3,6 @@ import ShowsList from "./ShowsList"
 
 function App() {
 
-
   return (
     <div>
    <ShowsList />
@@ -11,4 +10,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
