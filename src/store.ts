@@ -4,13 +4,13 @@ import { Show } from "./models/shows";
 import { rootSaga, sagaMiddleWare } from "./sagas";
 
 export type State={
-    shows: Show[];
+    shows: {[q: string]: Show[]};
     showsQuery: string;
 }
 
 
 const initaialState: State={
-    shows: [],
+    shows: {},
     showsQuery: '',
 }
 
@@ -21,7 +21,8 @@ export const reducer =(state = initaialState, action:AnyAction)=>{
             return {...state, showsQuery: action.payload}
 
         case SHOW_FETCHED:
-return {...state, shows: action.payload}
+            const {query, shows} = action.payload
+return {...state, shows: {...state.shows, [query]: shows } }
 
         default:
 return state;

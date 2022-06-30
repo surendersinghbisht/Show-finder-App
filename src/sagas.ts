@@ -8,13 +8,14 @@ export const sagaMiddleWare = createSagaMiddleware();
 
 export function* fetchShowData(action:AnyAction):Generator<any, any, any> {
 
-    delay(3000);
+   yield delay(500);
 
 if(!action.payload){
 return;
 }
-const data = yield call(getShows, action.payload);
-yield put (showsfetchedAction(data));
+const query = action.payload
+const data = yield call(getShows, query);
+yield put (showsfetchedAction(query, data));
 }
 
 
