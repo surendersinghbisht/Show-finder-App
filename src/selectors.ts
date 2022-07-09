@@ -1,9 +1,39 @@
+import { createSelector } from "reselect";
 import { State } from "./store";
 
-export const showsSelector=(s:State)=>{
-const showsIds =  s.shows.showsAgainstQuery[s.shows.showsQuery] || [];
+ const showStateSelector = (s:State) => s.shows;
 
-return showsIds.map(id => s.shows.entities[id])
-};
+export const showEntitiesSelector = createSelector(
+    showStateSelector,
+    (showState) => showState.entities
+)
 
-export const showQuerySelector=(s: State)=> s.shows.showsQuery;
+const showAgainstQuerySelector = createSelector(
+    showStateSelector,
+    (showState) => showState.showsAgainstQuery
+)
+
+export const showsQuerySelector = createSelector(
+    showStateSelector,
+(showState) => showState.showsQuery
+)
+
+export const showsIdsSelector = createSelector(
+    showsQuerySelector,
+    showAgainstQuerySelector,
+    (query, againstQuery) => againstQuery[query] || []
+)
+
+
+export const showQuerySelector = createSelector(
+    showStateSelector, 
+    (showState) =>
+showState.showsQuery
+)
+
+export const showsSelector = createSelector(
+    showsIdsSelector,
+    showEntitiesSelector,
+    (ids, entities) => ids.map ((id) => entities[id])
+)
+
