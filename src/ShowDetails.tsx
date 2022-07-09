@@ -1,5 +1,6 @@
-import { FC, memo } from "react";
+import { FC, memo, useEffect } from "react";
 import { connect } from "react-redux";
+import { showDetailFetch } from "./actions";
 import { Show } from "./models/shows";
 import { showEntitiesSelector } from "./selectors";
 import { State } from "./store";
@@ -7,9 +8,14 @@ import { withRouter, WithRouterProps } from "./withRouter";
 
 type ShowDetailsProps={
     show:Show;
+    fetchShow: (id: number) =>void
 } & WithRouterProps
 
-const ShowsList:FC<ShowDetailsProps>=({show})=>{
+const ShowsList:FC<ShowDetailsProps>=({show, fetchShow, params})=>{
+
+useEffect (()=>{
+fetchShow(+params.id)
+},[]);
 
 return(
 <div className=" p-8">
@@ -29,5 +35,8 @@ const mapStateToProps = (s:State, props: WithRouterProps) => ({
 show: showEntitiesSelector(s)[+props.params.id]
 })
 
+const mapDispatchToProps ={
+    fetchShow: showDetailFetch
+}
 
-export default withRouter(connect(mapStateToProps)(memo(ShowsList)));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(memo(ShowsList)));
