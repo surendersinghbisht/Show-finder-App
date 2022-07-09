@@ -20,7 +20,7 @@ const ShowsList:FC<ShowsListProps>=({query, shows, fetchShows})=>{
   }
 
 return(
-<div className="p-4 ">
+<div className="p-4 shadow-md">
     <input onChange={handleChange} value={query}
     className="w-80 h-10 shadow-md border-2 border-blue-200 bg-gray-100 rounded-md m-2"
      placeholder="search"/>
