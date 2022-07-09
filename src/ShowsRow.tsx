@@ -1,4 +1,5 @@
 import { FC, memo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Show } from "./models/shows";
 
 type ShowsRowProps={
@@ -7,9 +8,12 @@ show: Show
 
 const ShowsRow:FC<ShowsRowProps>=({show})=>{
 
+       const navigate = useNavigate()
+
+       const handleClick = () => navigate(`/shows/${show.id}`)
 return(
 
-<div className=" bg-gray-200 flex flex-col space-y-2 p-4" >
+<div onClick={handleClick} className=" bg-gray-200 flex flex-col space-y-2 p-4 cursor-pointer"  >
        <div className="bg-white p-4 rounded-md shadow-md space-y-2">
         <h1 className="font-bold">{show.name}</h1>
         <img className="w-20" src={
