@@ -1,7 +1,7 @@
 import createSagaMiddleware  from "@redux-saga/core";
 import { SHOWDETAIL_FETCH, showsfetchedAction, SHOW_FETCH, showDetailFetched } from "./actions"
 import { getShows, getDetails } from "./api"
-import {call, delay, put, takeEvery, takeLatest } from "redux-saga/effects"
+import {call, delay, put, takeEvery, takeLatest, takeLeading } from "redux-saga/effects"
 import { AnyAction } from "redux";
 
 export const sagaMiddleWare = createSagaMiddleware();
@@ -19,15 +19,16 @@ yield put (showsfetchedAction(query, data));
 }
 
 
-export function* fetchDetails(action:AnyAction):Generator<any, any, any>{
-    const id =action.payload
+export function* fetchShowDetails(action:AnyAction):Generator<any, any, any>{
+    const id: number = action.payload
     const data = yield call(getDetails, id)
-    yield put (showDetailFetched(id, data))
+    yield put(showDetailFetched (data))
 }
+
 
 export function* rootSaga() {
     yield takeLatest(SHOW_FETCH, fetchShowData);
-    yield takeEvery(SHOWDETAIL_FETCH, fetchDetails)
+    yield takeLatest(SHOWDETAIL_FETCH, fetchShowDetails)
 }
 
 

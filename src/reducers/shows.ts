@@ -1,6 +1,6 @@
 import { normalize, schema } from "normalizr";
 import { Reducer } from "redux";
-import { SHOW_FETCH, SHOW_FETCHED } from "../actions";
+import { SHOWDETAIL_FETCHED, SHOW_FETCH, SHOW_FETCHED } from "../actions";
 import { Show } from "../models/shows";
 
 
@@ -20,6 +20,14 @@ import { Show } from "../models/shows";
 export const showReducer: Reducer<showState> = (state = initialShowState, action) => {
 
     switch(action.type){
+
+case SHOWDETAIL_FETCHED:
+    const show: Show = action.payload;
+    return{
+        ...state,
+        entities: {...state.entities, [show.id]: show }
+    }
+
         case SHOW_FETCH:
             return {...state, showsQuery: action.payload}
 

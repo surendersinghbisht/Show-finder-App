@@ -8,14 +8,16 @@ import { withRouter, WithRouterProps } from "./withRouter";
 
 type ShowDetailsProps={
     show:Show;
-    fetchShow: (id: number) =>void
-} & WithRouterProps
+    fetchShow: (id: number) => void;
+} & WithRouterProps;
 
 const ShowsList:FC<ShowDetailsProps>=({show, fetchShow, params})=>{
 
-useEffect (()=>{
-fetchShow(+params.id)
-},[]);
+useEffect (() => {
+    if(!show){
+    fetchShow(+params.id)
+}
+}, []);
 
 return(
 <div className=" p-8">
@@ -35,7 +37,7 @@ const mapStateToProps = (s:State, props: WithRouterProps) => ({
 show: showEntitiesSelector(s)[+props.params.id]
 })
 
-const mapDispatchToProps ={
+const mapDispatchToProps = {
     fetchShow: showDetailFetch
 }
 
