@@ -21,7 +21,7 @@ type: SHOWDETAIL_FETCH,
 payload: id,
 })
  
-export const showDetailFetched =( show:Show) => ({
+export const showDetailFetched = (show:Show) => ({
 type: SHOWDETAIL_FETCHED,
-payload: show
+payload: show,
 })

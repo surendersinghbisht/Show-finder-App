@@ -1,6 +1,6 @@
 import { normalize, schema } from "normalizr";
 import { Reducer } from "redux";
-import { SHOWDETAIL_FETCHED, SHOW_FETCH, SHOW_FETCHED } from "../actions";
+import { SHOWDETAIL_FETCH, SHOWDETAIL_FETCHED, SHOW_FETCH, SHOW_FETCHED } from "../actions";
 import { Show } from "../models/shows";
 
 
@@ -8,25 +8,33 @@ import { Show } from "../models/shows";
     entities: {[id: string]: Show};
     showsAgainstQuery: {[q:string]: number[]}
     showsQuery: string;
+    showLoading: boolean;
 }
 
  const initialShowState: showState = {
     entities: {},
     showsQuery: '',
     showsAgainstQuery: {},
+    showLoading: false,
 }
 
 
 export const showReducer: Reducer<showState> = (state = initialShowState, action) => {
 
     switch(action.type){
+ case SHOWDETAIL_FETCH:
+return{
+    ...state,
+    showLoading: true,
+}
 
 case SHOWDETAIL_FETCHED:
     const show: Show = action.payload;
     return{
         ...state,
-        entities: {...state.entities, [show.id]: show }
-    }
+        entities: {...state.entities, [show.id]: show },
+        showLoading: false,
+    };
 
         case SHOW_FETCH:
             return {...state, showsQuery: action.payload}

@@ -37,3 +37,7 @@ export const showsSelector = createSelector(
     (ids, entities) => ids.map ((id) => entities[id])
 )
 
+
+export const showLoadingSelector = createSelector(showStateSelector, 
+    (showState) => showState.showLoading
+)
