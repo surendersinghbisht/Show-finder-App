@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { showCastFetchAction, showDetailFetch } from "./actions";
 import Actor from "./models/actors";
 import { Show } from "./models/shows";
-import { showEntitiesSelector, showLoadingSelector } from "./selectors";
+import { showActorsSelector, showEntitiesSelector, showLoadingSelector } from "./selectors";
 import Spinner from "./Spinner";
 import { State } from "./store";
 import { withRouter, WithRouterProps } from "./withRouter";
@@ -16,7 +16,7 @@ type ShowDetailsProps={
     fetchShowCast: (id: number) => void;
 } & WithRouterProps;
 
-const ShowsList:FC<ShowDetailsProps>=({show, fetchShow, fetchShowCast, params, loading})=>{
+const ShowsList:FC<ShowDetailsProps>=({show, fetchShow, fetchShowCast, params, loading, actors})=>{
 
     const id = +params.id
 useEffect (() => {
@@ -36,8 +36,21 @@ return(
         } />
          <h1 className="font-bold"> Rating: <span className="font-semibold">{show.rating.average}/10</span></h1>
        <p> {show.summary}</p>
-        </div>
-   </div>
+        
+       { actors && (
+        <div className="flex flex-wrap "><h1 className="font-bold">Actors:</h1> 
+        {actors.map((a) => <div key ={a.id}>
+            <div className="m-8 p-4">
+            {a.name}
+            <div className=" h-40 w-40">
+            <img src={a.image.medium} />
+            </div>
+            </div>
+        </div>)}
+        </div>)
+}
+          </div>
+          </div>
     }
    </>
 );
@@ -48,6 +61,7 @@ const mapStateToProps = (s:State, props: WithRouterProps) => {
     return{
         show: showEntitiesSelector(s)[id],
 loading: showLoadingSelector(s)[id],
+actors: showActorsSelector(s)[id],
 };
 };
 
