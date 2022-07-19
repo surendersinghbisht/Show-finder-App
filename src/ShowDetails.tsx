@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { showCastFetchAction, showDetailFetch } from "./actions";
 import Actor from "./models/actors";
 import { Show } from "./models/shows";
-import { showActorsLoading, showActorsSelector, showEntitiesSelector, showLoadingSelector } from "./selectors";
+import { showActorsLoadingSelector, showActorsSelector, showEntitiesSelector, showLoadingSelector } from "./selectors";
 import Spinner from "./Spinner";
 import { State } from "./store";
 import { withRouter, WithRouterProps } from "./withRouter";
@@ -28,8 +28,9 @@ useEffect (() => {
 
 return(
     <>
-   {loading && <Spinner>Loading</Spinner>}
-   {show && (<div className=" p-8">
+   {loading && <Spinner>...Loading</Spinner>}
+   {show && (
+   <div className=" p-8">
        <div className="bg-white p-4 rounded-md shadow-md space-y-2">
         <h1 className="font-bold">{show.name}</h1>
         <img className="w-20" src={
@@ -66,7 +67,7 @@ const mapStateToProps = (s:State, props: WithRouterProps) => {
         show: showEntitiesSelector(s)[id],
 loading: showLoadingSelector(s)[id],
 actors: showActorsSelector(s)[id],
-actorsLoding: showActorsLoading(s)[id],
+actorsLoding: showActorsLoadingSelector(s)[id],
 };
 };
 

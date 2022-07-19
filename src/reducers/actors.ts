@@ -19,10 +19,9 @@ export const actorReducer: Reducer<ActorState> = (state = initialState, action) 
     switch(action.type){
 
   case SHOW_CAST_FETCH:
-
     return{
         ...state, 
-        actorLoading: { [action.payload]: true}
+        actorsLoading: { [action.payload]: true}
     }
 
 case SHOW_CAST_FETCHED:

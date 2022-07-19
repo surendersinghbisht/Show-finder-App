@@ -67,7 +67,7 @@ export const actorsEntitiesSelector = createSelector(
         }
     );
 
-    export const showActorsLoading = createSelector(
+    export const showActorsLoadingSelector = createSelector(
         actorStateSelector,
         (actorState) => actorState.actorsLoading
     )
