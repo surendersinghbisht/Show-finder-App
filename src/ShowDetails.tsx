@@ -45,7 +45,7 @@ const ShowsList: FC<ShowDetailsProps> = ({
 
   return (
     <>
-      {loading && <Spinner>Loading</Spinner>}
+      {loading && <Spinner></Spinner>}
       {show && (
         <div className=" p-8">
           <div className="flex justify-between font-bold text-red-400 text-xl p-4">
@@ -69,7 +69,7 @@ const ShowsList: FC<ShowDetailsProps> = ({
             <p> {show.summary}</p>
             {actorsLoding && (
               <div className="m-20 p-12">
-                <Spinner>Actors Loading</Spinner>
+                <Spinner></Spinner>
               </div>
             )}
             {actors && (
