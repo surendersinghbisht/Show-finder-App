@@ -46,8 +46,8 @@ case SHOWDETAIL_FETCHED:
             const {query, shows} = action.payload as {query: string, shows: Show[]}
 
  const showEntity = new schema.Entity('shows');
-   const normalized = normalize(shows, [showEntity])
-    const normalizedShows = normalized.entities.shows
+   const normalized = normalize(shows, [showEntity]);
+    const normalizedShows = normalized.entities.shows;
 
 const ids = normalized.result;
 

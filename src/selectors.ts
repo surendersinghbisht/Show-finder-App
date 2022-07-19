@@ -7,8 +7,7 @@ import { State } from "./store";
 
 export const showEntitiesSelector = createSelector(
     showStateSelector,
-    (showState) => showState.entities
-)
+    (showState) => showState.entities )
 
 const showAgainstQuerySelector = createSelector(
     showStateSelector,
@@ -17,7 +16,7 @@ const showAgainstQuerySelector = createSelector(
 
 export const showsQuerySelector = createSelector(
     showStateSelector,
-(showState) => showState.showsQuery
+    (showState) => showState.showsQuery
 )
 
 export const showsIdsSelector = createSelector(
@@ -67,3 +66,8 @@ export const actorsEntitiesSelector = createSelector(
   return data as { [id: number]: Actor[] };
         }
     );
+
+    export const showActorsLoading = createSelector(
+        actorStateSelector,
+        (actorState) => actorState.actorsLoading
+    )

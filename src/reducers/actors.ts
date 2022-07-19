@@ -1,20 +1,29 @@
 import { normalize, schema } from "normalizr";
 import { Reducer } from "redux";
-import { SHOW_CAST_FETCHED } from "../actions";
+import { SHOW_CAST_FETCH, SHOW_CAST_FETCHED } from "../actions";
 import Actor from "../models/actors";
 
 type ActorState = {
-    entities: {[id: number]: Actor}
+    entities: {[id: number]: Actor};
+    actorsLoading: { [id: number] : boolean };
 }
 
 const initialState: ActorState = {
 entities: {},
+actorsLoading: {},
 }
 
 
 export const actorReducer: Reducer<ActorState> = (state = initialState, action) => {
 
     switch(action.type){
+
+  case SHOW_CAST_FETCH:
+
+    return{
+        ...state, 
+        actorLoading: { [action.payload]: true}
+    }
 
 case SHOW_CAST_FETCHED:
      const actorEntity = new schema.Entity('actors');
@@ -23,7 +32,7 @@ case SHOW_CAST_FETCHED:
     return{
         ...state,
         entities: {...state.entities, ...normalizedActors},
-    
+        actorsLoading: { [action.payload]: false },
     };
 
         default:

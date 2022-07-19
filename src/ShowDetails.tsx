@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { showCastFetchAction, showDetailFetch } from "./actions";
 import Actor from "./models/actors";
 import { Show } from "./models/shows";
-import { showActorsSelector, showEntitiesSelector, showLoadingSelector } from "./selectors";
+import { showActorsLoading, showActorsSelector, showEntitiesSelector, showLoadingSelector } from "./selectors";
 import Spinner from "./Spinner";
 import { State } from "./store";
 import { withRouter, WithRouterProps } from "./withRouter";
@@ -14,9 +14,10 @@ type ShowDetailsProps={
     actors: Actor[];
     fetchShow: (id: number) => void;
     fetchShowCast: (id: number) => void;
+    actorsLoding: boolean;
 } & WithRouterProps;
 
-const ShowsList:FC<ShowDetailsProps>=({show, fetchShow, fetchShowCast, params, loading, actors})=>{
+const ShowsList:FC<ShowDetailsProps>=({ show, fetchShow, fetchShowCast, params, loading, actors, actorsLoding })=>{
 
     const id = +params.id
 useEffect (() => {
@@ -27,7 +28,8 @@ useEffect (() => {
 
 return(
     <>
-   {loading && <Spinner />} {show && <div className=" p-8">
+   {loading && <Spinner>Loading</Spinner>}
+   {show && (<div className=" p-8">
        <div className="bg-white p-4 rounded-md shadow-md space-y-2">
         <h1 className="font-bold">{show.name}</h1>
         <img className="w-20" src={
@@ -37,6 +39,7 @@ return(
          <h1 className="font-bold"> Rating: <span className="font-semibold">{show.rating.average}/10</span></h1>
        <p> {show.summary}</p>
         
+       {actorsLoding && <Spinner>Actors Loading</Spinner>}
        { actors && (
         <div className="flex flex-wrap "><h1 className="font-bold">Actors:</h1> 
         {actors.map((a) => <div key ={a.id}>
@@ -51,6 +54,7 @@ return(
 }
           </div>
           </div>
+   )
     }
    </>
 );
@@ -62,6 +66,7 @@ const mapStateToProps = (s:State, props: WithRouterProps) => {
         show: showEntitiesSelector(s)[id],
 loading: showLoadingSelector(s)[id],
 actors: showActorsSelector(s)[id],
+actorsLoding: showActorsLoading(s)[id],
 };
 };
 
