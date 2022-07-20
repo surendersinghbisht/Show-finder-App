@@ -38,7 +38,7 @@ const ShowsList: FC<ShowsListProps> = ({
       />
       {mainLoading && <Spinner></Spinner>}
       {shows.map((s) => (
-        <ShowsRow show={s} key={s.id} />
+        <ShowsRow query={query} show={s} key={s.id} />
       ))}
     </div>
   );

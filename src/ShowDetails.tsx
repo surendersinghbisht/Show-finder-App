@@ -1,7 +1,8 @@
 import { FC, memo, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { showCastFetchAction, showDetailFetch } from "./actions";
+import { Link, useSearchParams } from "react-router-dom";
+import { showCastFetchAction, showDetailFetch, showsfetchAction } from "./actions";
+import LinkWithQuery from "./LinkWithQuery";
 import Actor from "./models/actors";
 import { Show } from "./models/shows";
 import {
@@ -21,24 +22,35 @@ type ShowDetailsProps = {
   actors: Actor[];
   fetchShow: (id: number) => void;
   fetchShowCast: (id: number) => void;
+  fetchShows: (q: string) => void;
   actorsLoding: boolean;
   prev?: string;
   next?: string;
 } & WithRouterProps;
 
+
 const ShowsList: FC<ShowDetailsProps> = ({
   show,
   fetchShow,
+  fetchShows,
   fetchShowCast,
   params,
   loading,
   actors,
   actorsLoding,
+  location,
   prev,
   next,
 }) => {
-  const id = +params.id;
-  useEffect(() => {
+const [search] = useSearchParams();
+
+ 
+  useEffect(() => { 
+    const id = +params.id;
+    const query = search.get('q')
+if( !show && query ){
+   fetchShows(query);
+}
     fetchShow(id);
     fetchShowCast(id);
   }, []);
@@ -48,12 +60,20 @@ const ShowsList: FC<ShowDetailsProps> = ({
       {loading && <Spinner></Spinner>}
       {show && (
         <div className=" p-8">
-          <div className="flex justify-between font-bold text-red-400 text-xl p-4">
-            {prev ? <Link to={prev}> &#60; Prev </Link> : <span></span>}
-            {next ? <Link to={next}>Next &#62;</Link> : <span></span>}
+          <div className="flex justify-between font-bold text-red-400 text-xl p-4 hover:text-red-300">
+            {prev ? (
+              <LinkWithQuery to={prev}> &#60; Prev </LinkWithQuery>
+            ) : (
+              <span></span>
+            )}
+            {next ? (
+              <LinkWithQuery to={next}>Next &#62;</LinkWithQuery>
+            ) : (
+              <span></span>
+            )}
           </div>
           <div className="bg-white p-4 rounded-md shadow-md space-y-2">
-            <h1 className="font-bold">{show.name}</h1>
+            <h1 className="font-bold ">{show.name}</h1>
             <img
               className="w-20"
               src={
@@ -130,6 +150,7 @@ const mapStateToProps = (s: State, props: WithRouterProps) => {
 const mapDispatchToProps = {
   fetchShow: showDetailFetch,
   fetchShowCast: showCastFetchAction,
+  fetchShows: showsfetchAction,
 };
 
 export default withRouter(
