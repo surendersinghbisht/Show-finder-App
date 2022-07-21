@@ -1,7 +1,11 @@
 import { FC, memo, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link, useSearchParams } from "react-router-dom";
-import { showCastFetchAction, showDetailFetch, showsfetchAction } from "./actions";
+import { useSearchParams } from "react-router-dom";
+import {
+  showCastFetchAction,
+  showDetailFetch,
+  showsfetchAction,
+} from "./actions";
 import LinkWithQuery from "./LinkWithQuery";
 import Actor from "./models/actors";
 import { Show } from "./models/shows";
@@ -28,7 +32,6 @@ type ShowDetailsProps = {
   next?: string;
 } & WithRouterProps;
 
-
 const ShowsList: FC<ShowDetailsProps> = ({
   show,
   fetchShow,
@@ -38,22 +41,19 @@ const ShowsList: FC<ShowDetailsProps> = ({
   loading,
   actors,
   actorsLoding,
-  location,
+  search,
   prev,
   next,
 }) => {
-const [search] = useSearchParams();
-
- 
-  useEffect(() => { 
+  useEffect(() => {
     const id = +params.id;
-    const query = search.get('q')
-if( !show && query ){
-   fetchShows(query);
-}
+    const query = search.get("q");
+    if (!show && query) {
+      fetchShows(query);
+    }
     fetchShow(id);
     fetchShowCast(id);
-  }, []);
+  }, [params]);
 
   return (
     <>
