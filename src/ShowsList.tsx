@@ -29,13 +29,15 @@ const ShowsList: FC<ShowsListProps> = ({
   };
 
   return (
-    <div className="p-4 shadow-md">
+    <div className="p-4 shadow-md space-y-2">
+      <h1 className="font-bold text-lg tracking-wide">Show Finder </h1>
       <input
         onChange={handleChange}
         value={query}
-        className="w-80 h-10 shadow-md border-2 border-blue-200 bg-gray-100 rounded-md m-2"
-        placeholder="search"
+        className="w-80 h-10 shadow-md border-2 border-blue-200 bg-gray-100 rounded-md "
+        placeholder="search any show"
       />
+      <p className="text-gray-700 font-sans">search your favorite here</p>
       {mainLoading && <Spinner></Spinner>}
       {shows.map((s) => (
         <ShowsRow query={query} show={s} key={s.id} />
